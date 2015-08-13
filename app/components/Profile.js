@@ -3,15 +3,26 @@ var Router = require('react-router');
 var UserProfile = require('./github/UserProfile');
 var Repos = require('./github/Repos');
 var Notes = require('./notes/Notes');
+var ReactFireMixin = require('reactfire');
+var Firebase = require('firebase');
+
 
 var Profile = React.createClass({
-	mixins: [Router.State],
+	mixins: [Router.State, ReactFireMixin],
 	getInitialState: function(){
 		return {
 			notes: ['note1', 'notes2'],
 			bio: {name: 'Whitney'},
 			repos: [1,2,3]
 		}
+	},
+	componentDidMount: function(){
+		this.ref = new Firebase('https://github-notetaker-whit.firebaseio.com');
+		var childRef = this.ref.child(this.getParams().username);
+		this.bindAsArray(childRef, 'notes');
+	},
+	componentWillUnmount: function(){
+		this.unbind('notes');
 	},
 	render: function(){
 		var username = this.getParams().username;
