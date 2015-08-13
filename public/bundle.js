@@ -23549,6 +23549,7 @@
 	var React = __webpack_require__(1);
 	var Main = __webpack_require__(197);
 	var Home = __webpack_require__(198);
+	var Profile = __webpack_require__(199);
 	var Router = __webpack_require__(157);
 	var DefaultRoute = Router.DefaultRoute;
 	var Route = Router.Route;
@@ -23556,6 +23557,7 @@
 	module.exports = React.createElement(
 		Route,
 		{ name: 'app', path: '/', handler: Main },
+		React.createElement(Route, { name: 'profile', path: 'profile/:username', handler: Profile }),
 		React.createElement(DefaultRoute, { handler: Home })
 	);
 
@@ -23617,6 +23619,54 @@
 
 	// React.render(<Home />, document.getElementById("app"));
 	module.exports = Home;
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(157);
+
+	var Profile = React.createClass({
+		displayName: 'Profile',
+
+		mixins: [Router.State],
+		getInitialState: function getInitialState() {
+			return {
+				notes: [],
+				bio: {},
+				repos: []
+			};
+		},
+		render: function render() {
+			var username = this.getParams().username;
+			return React.createElement(
+				'div',
+				{ className: 'row' },
+				React.createElement(
+					'div',
+					{ className: 'col-md-4' },
+					'User Profile Component --- ',
+					username
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-md-4' },
+					'Repos Component'
+				),
+				React.createElement(
+					'div',
+					{ className: 'col-md-4' },
+					'Notes Component'
+				)
+			);
+		}
+
+	});
+
+	module.exports = Profile;
 
 /***/ }
 /******/ ]);
